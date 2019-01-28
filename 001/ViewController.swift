@@ -62,7 +62,10 @@ class SKViewController:ViewController, SCNSceneRendererDelegate, CAAnimationDele
         
         scnView = SCNView(frame: view.frame)
         scnView.translatesAutoresizingMaskIntoConstraints = false
-        scnView.showsStatistics = true
+        if(DEBUG){
+           scnView.showsStatistics = true
+        }
+        scnView.allowsCameraControl = true
         view.addSubview(scnView)
         scene = SCNScene()
         
@@ -73,7 +76,7 @@ class SKViewController:ViewController, SCNSceneRendererDelegate, CAAnimationDele
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[scnView]-0-|", options: [], metrics: nil, views: views)
         NSLayoutConstraint.activate(constraints)
         
-        scnView.allowsCameraControl = true
+        
         scnView.scene = scene
         scnView.delegate = self
         scnView.backgroundColor = Color.gray
@@ -170,6 +173,7 @@ class SKViewController:ViewController, SCNSceneRendererDelegate, CAAnimationDele
         let size:CGFloat = CGFloat(1 *  multiples[multiples.randomIndex])
         let box = SCNPlane(width: size, height: size)
         box.materials.first?.diffuse.contents = image ?? colors[colors.randomIndex]
+        box.materials.first?.isDoubleSided = true
         let node = SCNNode(geometry: box)
         
         let randomPostionsX = Float.random(min:-3,max:3)
