@@ -6,7 +6,7 @@
 //  Copyright © 2020 Joss Manger. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class PokemonLoader {
   
@@ -19,20 +19,41 @@ class PokemonLoader {
     var pokedex = Pokedex()
     pokedex.reserveCapacity(MAX)
     
-    let queue = DispatchGroup()
+    let dispatchGroup = DispatchGroup()
     
     for index in 1...MAX{
-      let task = createTask(taskManager:queue, index: index){ poke in
+      let task = createTask(taskManager:dispatchGroup, index: index){ poke in
+        PokemonLoader.queue.async {
         pokedex.insert(poke)
+        }
       }
       task.resume()
     }
     
-    queue.notify(queue: .main) {
+    dispatchGroup.notify(queue: .main) {
       callback(pokedex)
     }
     
   }
+  
+  static var directory: URL = {
+    
+    let folder = "images"
+    let documentFolder = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+    let destination = URL(fileURLWithPath: documentFolder).appendingPathComponent(folder, isDirectory: true)
+    var objcbool = ObjCBool(booleanLiteral: true)
+    if !FileManager.default.fileExists(atPath: destination.absoluteString, isDirectory: &objcbool){
+      do{
+        try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true, attributes: nil)
+        return destination
+      } catch {
+        fatalError(error.localizedDescription)
+      }
+    }
+    
+    return destination
+    
+  }()
   
   static func createTask(taskManager: DispatchGroup, index: Int, callback: @escaping (Pokemon)->Void) -> URLSessionDataTask {
     
@@ -51,37 +72,82 @@ class PokemonLoader {
       guard let data = data else {
         return
       }
+      
       PokemonLoader.queue.async {
         
         do{
-          
           var poke = try JSONDecoder().decode(Pokemon.self, from: data)
           
-          let imageTask = URLSession.shared.dataTask(with: poke.sprite.url) { (data, response, error) in
-            
-            guard let gotdata = data else {
+          //Is there currently an image in the relevant folder?
+          
+          let url = PokemonLoader.directory
+          
+          let contents = try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+          
+          let imageName = "\(poke.number)-\(poke.name).png"
+          let imgurl = url.appendingPathComponent(imageName)
+          
+          var image: Image?
+          
+          switch contents.contains(imgurl) {
+          case true:
+            print("loading \(poke.name) from cache")
+            guard let data = try? Data(contentsOf: imgurl) else {
               fatalError()
             }
-            
-            let image = Image(data: gotdata)
-            
+            image = Image(data:data)
             poke.sprite.image = image
-            
-            //notify DispatchGroup that we are done with this particular last
             taskManager.leave()
-            
             callback(poke)
-            
+            break;
+          case false:
+            print("loading \(poke.name) from url")
+            PokemonLoader.loadImage(url: poke.sprite.url,filePath:imgurl) { (image) in
+              poke.sprite.image = image
+              DispatchQueue.main.async {
+                //notify DispatchGroup that we are done with this particular task
+                taskManager.leave()
+                callback(poke)
+              }
+              return
+            }
           }
-          imageTask.resume()
+          
+
           
         } catch {
           fatalError()
         }
+        
       }
       
-    })
+    }
+      
+      
+    )
   }
   
+  private static func loadImage(url:URL,filePath:URL,callback:@escaping (Image?)->Void){
+    
+    let imageTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
+      
+      guard let gotdata = data else {
+        fatalError()
+      }
+      
+      let image = Image(data: gotdata)
+      
+      do {
+        try gotdata.write(to: filePath)
+      } catch {
+        print(error)
+      }
+      
+      callback(image)
+      
+    }
+    imageTask.resume()
+    
+  }
   
 }
