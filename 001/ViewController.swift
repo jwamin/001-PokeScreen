@@ -58,7 +58,7 @@ class MyViewController:ViewController, SCNSceneRendererDelegate, CAAnimationDele
     
     blurView.contentView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     
-    blurView.contentView.addSubview(naniumator)
+    blurView.contentView.addSubview(naniumator) 
     self.naniumator = naniumator
     
     view.addSubview(blurView)
