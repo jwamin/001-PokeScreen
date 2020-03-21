@@ -56,6 +56,8 @@
 		57E42FA92426363900253319 /* _01Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _01Tests.swift; sourceTree = "<group>"; };
 		57E42FAB2426363900253319 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		57E42FB124263ACF00253319 /* PokemonScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonScene.swift; sourceTree = "<group>"; };
+		57E42FB524265A1B00253319 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		57E42FB624265A1B00253319 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		57F5588724241FAB002FD176 /* PokeScreen.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokeScreen.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		57F5588924241FAC002FD176 /* PokeScreenView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PokeScreenView.h; sourceTree = "<group>"; };
 		57F5588B24241FAC002FD176 /* PokeScreenView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PokeScreenView.m; sourceTree = "<group>"; };
@@ -90,6 +92,8 @@
 		579F596221FE5BC3004EFEDB = {
 			isa = PBXGroup;
 			children = (
+				57E42FB524265A1B00253319 /* LICENSE */,
+				57E42FB624265A1B00253319 /* README.md */,
 				579F596D21FE5BC3004EFEDB /* 001 */,
 				57E42FA82426363900253319 /* 001Tests */,
 				57F5588824241FAC002FD176 /* PokeScreen */,
