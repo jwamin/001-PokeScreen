@@ -6,25 +6,25 @@
 //  Copyright © 2020 Joss Manger. All rights reserved.
 //
 
-import Foundation
-
 #if os(OSX)
 import Cocoa
 typealias Color = NSColor
-typealias Image = NSImage
+public typealias Image = NSImage
 typealias ViewController = NSViewController
 typealias View = NSView
 typealias Rect = NSRect
+typealias VisualEffectView = NSVisualEffectView
 #else
 import UIKit
 typealias Color = UIColor
-typealias Image = UIImage
+public typealias Image = UIImage
 typealias ViewController = UIViewController
 typealias View = UIView
 typealias Rect = CGRect
+typealias VisualEffectView = UIVisualEffectView
 #endif
 
-typealias Pokedex = Set<Pokemon>
+public typealias Pokedex = Set<Pokemon>
 
 let DEBUG = false
 let nodeNumber: Int = 50

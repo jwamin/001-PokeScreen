@@ -8,6 +8,11 @@
 
 import UIKit
 
+var unitTesting : Bool
+{
+    return ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

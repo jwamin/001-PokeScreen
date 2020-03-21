@@ -9,13 +9,11 @@
 import SceneKit
 
 
-class MyViewController:ViewController, SCNSceneRendererDelegate, CAAnimationDelegate {
+class MyViewController: ViewController, SCNSceneRendererDelegate, CAAnimationDelegate {
   
   var scene:SCNScene!
   var scnView:SCNView!
   let cameraNode:SCNNode = SCNNode()
-  var tasks:DispatchGroup!
-
   var layers:[CAAnimationGroup:SCNNode] = [:]
   
   var blurView:BlurViewWithDeinit?
@@ -32,6 +30,10 @@ class MyViewController:ViewController, SCNSceneRendererDelegate, CAAnimationDele
   var nodes:[SCNNode] = []
   
   private var pokedex: Pokedex!
+  
+  override func viewDidAppear(_ animated: Bool) {
+    print("view appeared")
+  }
   
   override func viewDidLoad() {
     
@@ -72,6 +74,10 @@ class MyViewController:ViewController, SCNSceneRendererDelegate, CAAnimationDele
     scnView.backgroundColor = Color.gray
     
     setupBasicAnim()
+    
+    if unitTesting {
+      return
+    }
     
     //add background URLSessions, with index, to dispatch group
     PokemonLoader.loadAll { [weak self] (dex) in

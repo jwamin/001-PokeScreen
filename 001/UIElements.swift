@@ -6,9 +6,15 @@
 //  Copyright © 2020 Joss Manger. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-class BlurViewWithDeinit : UIVisualEffectView {
+#if os(OSX)
+import Cocoa
+#else
+import UIKit
+#endif
+
+class BlurViewWithDeinit : VisualEffectView {
   deinit{
     print("deinited")
   }

@@ -6,31 +6,55 @@
 //  Copyright © 2020 Joss Manger. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-class PokemonLoader {
+@objc
+public class PokemonLoader : NSObject {
   
   static let queueID = "org.jossy.pokemonrequestQueue"
   static var queue: DispatchQueue = DispatchQueue(label: PokemonLoader.queueID, qos: .background, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil)
   
+  @objc public func loadAll(callback: @escaping ([Image]) -> Void) {
+    print("load all called")
+    PokemonLoader.loadAll { (dex) in
+      print(dex.count)
+      var arr = Array<Image>()
+      for item in dex {
+       if let img = item.sprite.image {
+          arr.append(img)
+        }
+      }
+      callback(arr)
+    }
+  }
   
-  static func loadAll(callback: @escaping (Pokedex)->Void){
+  public static func loadAll(callback: @escaping (Pokedex)->Void){
     
     var pokedex = Pokedex()
-    pokedex.reserveCapacity(MAX)
+    //pokedex.reserveCapacity(MAX)
     
     let dispatchGroup = DispatchGroup()
     
     for index in 1...MAX{
       let task = createTask(taskManager:dispatchGroup, index: index){ poke in
-        PokemonLoader.queue.async {
-        pokedex.insert(poke)
+        
+        if Thread.isMainThread {
+          pokedex.insert(poke)
+          dispatchGroup.leave()
+        } else {
+          PokemonLoader.queue.async(flags: .barrier, execute: {
+            print("pokedex count: \(pokedex.count), inserting \(poke.name)")
+            pokedex.insert(poke)
+            dispatchGroup.leave()
+          })
         }
+
       }
       task.resume()
     }
     
     dispatchGroup.notify(queue: .main) {
+      print("final count \(pokedex.count)")
       callback(pokedex)
     }
     
@@ -54,6 +78,22 @@ class PokemonLoader {
     return destination
     
   }()
+  
+  static func emptyCache(){
+    
+    let url = PokemonLoader.directory
+    do {
+    let contents = try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+      try contents.forEach { (url) in
+        try FileManager.default.removeItem(at: url)
+        print("successfully deleted \(url)")
+      }
+    } catch {
+      print("failed to delete cache, \(error.localizedDescription)")
+    }
+    
+    
+  }
   
   static func createTask(taskManager: DispatchGroup, index: Int, callback: @escaping (Pokemon)->Void) -> URLSessionDataTask {
     
@@ -97,16 +137,16 @@ class PokemonLoader {
             }
             image = Image(data:data)
             poke.sprite.image = image
-            taskManager.leave()
+            
             callback(poke)
             break;
           case false:
             print("loading \(poke.name) from url")
-            PokemonLoader.loadImage(url: poke.sprite.url,filePath:imgurl) { (image) in
+            PokemonLoader.loadImage(url: poke.sprite.url, filePath:imgurl) { (image) in
               poke.sprite.image = image
               DispatchQueue.main.async {
                 //notify DispatchGroup that we are done with this particular task
-                taskManager.leave()
+                
                 callback(poke)
               }
               return
@@ -127,12 +167,20 @@ class PokemonLoader {
     )
   }
   
-  private static func loadImage(url:URL,filePath:URL,callback:@escaping (Image?)->Void){
+  private static func loadImage(url:URL,filePath:URL,count:Int = 0,callback:@escaping (Image?)->Void){
     
     let imageTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
       
       guard let gotdata = data else {
-        fatalError()
+        if count <= 3{
+          let newCount = count + 1
+          print("retrying \(newCount)")
+          loadImage(url: url, filePath: filePath,count: newCount, callback: callback)
+        
+        } else {
+          fatalError()
+        }
+        return
       }
       
       let image = Image(data: gotdata)
