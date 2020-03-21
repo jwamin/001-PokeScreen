@@ -27,6 +27,8 @@ public class PokemonScene : NSObject {
   
   var nodes:[SCNNode] = []
   
+  var timer: Timer!
+  
   public convenience init(pokedex:Pokedex, sceneView: SCNView){
     self.init(view: sceneView, load: false)
     initialiseScene(pokedex:pokedex)
@@ -131,12 +133,11 @@ public class PokemonScene : NSObject {
       scene.rootNode.addChildNode(node)
     }
     
-    
     for _ in 0...nodeNumber {
       self.nodes.append(SCNNode())
     }
     
-    Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { (timer) in
+    timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { (timer) in
       if let pokemon = self.pokedex.randomElement() {
         if let img = pokemon.sprite.image{
           
@@ -152,6 +153,18 @@ public class PokemonScene : NSObject {
       
     }
     
+  }
+  
+  @objc
+  public func stopScene(){
+    timer.invalidate()
+    timer = nil
+    for node in nodes{
+      node.removeAllAnimations()
+      node.removeAllActions()
+      node.removeFromParentNode()
+    }
+    nodes.removeAll()
   }
   
 }

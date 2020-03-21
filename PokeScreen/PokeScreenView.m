@@ -43,6 +43,7 @@
 - (void)stopAnimation
 {
     [super stopAnimation];
+    [self.pokemonScene stopScene];
 }
 
 - (void)drawRect:(NSRect)rect
