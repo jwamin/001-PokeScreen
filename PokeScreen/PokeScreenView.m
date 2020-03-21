@@ -17,18 +17,20 @@
     self = [super initWithFrame:frame isPreview:isPreview];
     if (self) {
       self.loader = [[PokemonLoader alloc] init];
-      self.singleview = [[NSImageView alloc] initWithFrame:CGRectZero];
-      [self.singleview setTranslatesAutoresizingMaskIntoConstraints:FALSE];
-      [self.loader loadAllWithCallback:^(NSArray<NSImage *> *arr) {
-        os_log_info(OS_LOG_DEFAULT, "%@", arr);
-        [self.singleview setImage:(NSImage *)[arr firstObject]];
-        [self addSubview:self.singleview];
-        [[[self.singleview centerYAnchor] constraintEqualToAnchor:self.centerYAnchor] setActive:YES];
-        [[[self.singleview centerXAnchor] constraintEqualToAnchor:self.centerXAnchor] setActive:YES];
-        
-        
-        os_log_info(OS_LOG_DEFAULT, "done");
-      }];
+      self.sceneView = [[SCNView alloc] initWithFrame:CGRectZero options:nil];
+      [self.sceneView setTranslatesAutoresizingMaskIntoConstraints:FALSE];
+      [self.sceneView setBackgroundColor:[NSColor grayColor]];
+      [self addSubview:self.sceneView];
+      NSArray<NSLayoutConstraint*> *constraints = @[
+      [[self.sceneView topAnchor] constraintEqualToAnchor:self.topAnchor],
+      [[self.sceneView bottomAnchor] constraintEqualToAnchor:self.bottomAnchor],
+      [[self.sceneView leadingAnchor] constraintEqualToAnchor:self.leadingAnchor],
+      [[self.sceneView trailingAnchor] constraintEqualToAnchor:self.trailingAnchor]
+      ];
+      [NSLayoutConstraint activateConstraints:constraints];
+      
+      self.pokemonScene = [[PokemonScene alloc] initWithView:self.sceneView load:true];
+      
     }
     return self;
 }

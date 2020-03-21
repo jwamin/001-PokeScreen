@@ -11,6 +11,8 @@ import Foundation
 @objc
 public class PokemonLoader : NSObject {
   
+  static var rootURL = URL(string: "http://pokeapi.co/api/v2/pokemon/")!
+  
   static let queueID = "org.jossy.pokemonrequestQueue"
   static var queue: DispatchQueue = DispatchQueue(label: PokemonLoader.queueID, qos: .background, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil)
   
@@ -99,9 +101,7 @@ public class PokemonLoader : NSObject {
     
     taskManager.enter()
     
-    guard let url = URL(string:"http://pokeapi.co/api/v2/pokemon/\(index)/") else {
-      fatalError()
-    }
+    let url = rootURL.appendingPathComponent("\(index)")
     
     return URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
       

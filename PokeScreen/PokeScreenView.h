@@ -14,6 +14,8 @@
 
 @property (strong) PokemonLoader *loader;
 
-@property (strong) NSImageView *singleview;
+@property (strong) PokemonScene *pokemonScene;
+
+@property (strong) SCNView *sceneView;
 
 @end
