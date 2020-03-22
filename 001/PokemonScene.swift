@@ -81,16 +81,20 @@ public class PokemonScene : NSObject {
      }
      
      
-     let multiples = [1,2,0.5]
-     let size:CGFloat = CGFloat(1 *  multiples[multiples.randomIndex])
+    let multiples:[CGFloat] = [1,2,0.5]
+    let size:CGFloat = CGFloat(1 *  multiples.randomElement()!)
      let box = SCNPlane(width: size, height: size)
-     box.materials.first?.diffuse.contents = image ?? colors[colors.randomIndex]
+    box.materials.first?.diffuse.contents = image ?? colors.randomElement()!
      box.materials.first?.isDoubleSided = true
      node.geometry = box
      
-     let randomPostionsX: CGFloat = Float.random(min:-3,max:3)
-     let randomPositionY: CGFloat = Float.random(min:-3,max:3)
-     let randomPositionZ: CGFloat = Float.random(min:-10,max:Float(cameraNode.position.z))
+    let randomPostionsX: CGFloat = .random(in: -3...3)
+     let randomPositionY: CGFloat = .random(in: -3...3)
+    
+    let minZ: CGFloat = -10.0
+    let maxZ: CGFloat = CGFloat(cameraNode.position.z)
+    
+    let randomPositionZ: CGFloat = CGFloat.random(in: minZ...maxZ)
      
     node.position = SCNVector3(randomPostionsX, randomPositionY, randomPositionZ)
      

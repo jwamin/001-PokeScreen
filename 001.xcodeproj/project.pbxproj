@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5758D3A4240C1799007F0992 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5758D3A3240C1799007F0992 /* Extensions.swift */; };
 		5758D3A6240C17B4007F0992 /* NativeTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5758D3A5240C17B4007F0992 /* NativeTypes.swift */; };
 		5758D3A8240C17FC007F0992 /* UIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5758D3A7240C17FC007F0992 /* UIElements.swift */; };
 		5758D3AA240C1B19007F0992 /* PokemonLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5758D3A9240C1B19007F0992 /* PokemonLoader.swift */; };
@@ -24,7 +23,6 @@
 		57F5588C24241FAC002FD176 /* PokeScreenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 57F5588B24241FAC002FD176 /* PokeScreenView.m */; };
 		57F5589124241FBB002FD176 /* NativeTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5758D3A5240C17B4007F0992 /* NativeTypes.swift */; };
 		57F5589224241FC7002FD176 /* PokemonLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5758D3A9240C1B19007F0992 /* PokemonLoader.swift */; };
-		57F5589324241FCC002FD176 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5758D3A3240C1799007F0992 /* Extensions.swift */; };
 		57F5589424241FD2002FD176 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5758D3AB240C1C14007F0992 /* Settings.swift */; };
 		57F5589524241FD9002FD176 /* UIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5758D3A7240C17FC007F0992 /* UIElements.swift */; };
 /* End PBXBuildFile section */
@@ -40,7 +38,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5758D3A3240C1799007F0992 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5758D3A5240C17B4007F0992 /* NativeTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeTypes.swift; sourceTree = "<group>"; };
 		5758D3A7240C17FC007F0992 /* UIElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElements.swift; sourceTree = "<group>"; };
 		5758D3A9240C1B19007F0992 /* PokemonLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonLoader.swift; sourceTree = "<group>"; };
@@ -118,7 +115,6 @@
 				579F597021FE5BC3004EFEDB /* ViewController.swift */,
 				5758D3A9240C1B19007F0992 /* PokemonLoader.swift */,
 				5758D3A5240C17B4007F0992 /* NativeTypes.swift */,
-				5758D3A3240C1799007F0992 /* Extensions.swift */,
 				5758D3AB240C1C14007F0992 /* Settings.swift */,
 				5758D3A7240C17FC007F0992 /* UIElements.swift */,
 				57E42FB124263ACF00253319 /* PokemonScene.swift */,
@@ -293,7 +289,6 @@
 				5758D3A6240C17B4007F0992 /* NativeTypes.swift in Sources */,
 				579F597121FE5BC3004EFEDB /* ViewController.swift in Sources */,
 				5758D3AA240C1B19007F0992 /* PokemonLoader.swift in Sources */,
-				5758D3A4240C1799007F0992 /* Extensions.swift in Sources */,
 				57E42FB324263AD700253319 /* PokemonScene.swift in Sources */,
 				5758D3AC240C1C14007F0992 /* Settings.swift in Sources */,
 				579F596F21FE5BC3004EFEDB /* AppDelegate.swift in Sources */,
@@ -317,7 +312,6 @@
 				57F5588C24241FAC002FD176 /* PokeScreenView.m in Sources */,
 				57E42FB424263AD900253319 /* PokemonScene.swift in Sources */,
 				57F5589224241FC7002FD176 /* PokemonLoader.swift in Sources */,
-				57F5589324241FCC002FD176 /* Extensions.swift in Sources */,
 				57F5589524241FD9002FD176 /* UIElements.swift in Sources */,
 				57F5589424241FD2002FD176 /* Settings.swift in Sources */,
 			);
@@ -557,7 +551,7 @@
 				DEVELOPMENT_TEAM = 3C42F7N9CQ;
 				INFOPLIST_FILE = PokeScreen/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = co.jossy.PokeScreen;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -574,7 +568,7 @@
 				DEVELOPMENT_TEAM = 3C42F7N9CQ;
 				INFOPLIST_FILE = PokeScreen/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = co.jossy.PokeScreen;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
